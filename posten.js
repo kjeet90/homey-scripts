@@ -1,7 +1,7 @@
 const postnummer = 0000;
 
 const apiurl =
-  "https://www.posten.no/levering-av-post/_/component/main/1/leftRegion/1?postCode=" +
+  "https://www.posten.no/levering-av-post/_/component/main/1/leftRegion/9?postCode=" +
   postnummer;
 
 async function getData() {
