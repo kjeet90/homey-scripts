@@ -1,35 +1,46 @@
-const postnummer = 0000
+const postnummer = 0000;
 
-async function getData(code) {
-  const apiurl = `https://www.posten.no/levering-av-post/_/component/main/1/leftRegion/${code}?postCode=${postnummer}`;
-  console.log(apiurl);
+async function fetchHTML() {
+  const apiurl = `https://www.posten.no/levering-av-post`;
+  const resp = await fetch(apiurl);
+  return resp.text();
+}
+
+async function findUrl() {
+  try {
+    response = await fetchHTML();
+    const arr = response.split("data-component-url=");
+    return arr[1].substring(0, arr[1].indexOf(" "));
+  } catch (e) {
+    return null;
+  }
+}
+
+async function getData() {
+  const url = await findUrl();
+  if (url) {
+    const apiurl = `https://posten.no${url}?postCode=${postnummer}`;
     const resp = await fetch(apiurl, {
-      method: 'get',
+      method: "get",
       headers: {
         "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest"
-      }
+        "X-Requested-With": "XMLHttpRequest",
+      },
     });
     return resp.json();
+  }
+  return null;
 }
 
-// Got sick of Posten.no changing the one number in the url and breaking it, so trying until success between 0-50.
-for(let i = 0; i < 50; i++) {
-  try {
-    response = await getData(i);
-    break;
-  } catch(e) {
-    response = { nextDeliveryDays: [] }
-  }  
-}
-
-function isPostToday() {
-  if(response.nextDeliveryDays && response.nextDeliveryDays[0]) {
-    if(response.nextDeliveryDays[0].includes('i dag')) {
+async function isPostToday() {
+  const response = await getData();
+  console.log(response);
+  if (response && response.nextDeliveryDays && response.nextDeliveryDays[0]) {
+    if (response.nextDeliveryDays[0].includes("i dag")) {
       return true;
-    } 
+    }
   }
   return false;
 }
 
-return isPostToday();
+return await isPostToday();
