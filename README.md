@@ -2,20 +2,6 @@
 
 HomeyScripts I find useful, and maybe you do too. Scripts made by others are mentioned in the Credits section at the bottom.
 
-## **posten.js**
-
-Checks if it's post delivery today.
-
-- Change the variable **postnummer** in the script from 0000 to your postal code.
-
-It should be used in the **and** section of the flow. If the post is being delivered today it will continue, if not it will stop.
-
-Example of usage:
-
-- **When**: Time is 13:00
-- **And**: Run posten (HomeyScript)
-- **Then**: Send a push notification "Post delivery today"
-
 ## **tibber-price.js**
 
 Checks for lowest, highest and average power price for tomorrow.
@@ -48,9 +34,10 @@ Set the following variables in the script to match your home:
 - stopLimit: How many percent over average humidity it should stop the fan on.
 
 Example of use:
-* **When**: A sensor value has changed (humidity)
-* **And**: \<blank\>
-* **Then**: Run fan-control.js (HomeyScript)
+
+- **When**: A sensor value has changed (humidity)
+- **And**: \<blank\>
+- **Then**: Run fan-control.js (HomeyScript)
 
 ## **Credits**
 
